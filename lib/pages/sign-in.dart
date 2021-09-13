@@ -62,7 +62,8 @@ class SignInState extends State<SignIn> {
 
   /// starts the camera & start framing faces
   _start() async {
-    _initializeControllerFuture = _cameraService.startService(widget.cameraDescription);
+    _initializeControllerFuture =
+        _cameraService.startService(widget.cameraDescription);
     await _initializeControllerFuture;
 
     setState(() {
@@ -97,7 +98,6 @@ class SignInState extends State<SignIn> {
                 _saving = false;
                 _faceNetService.setCurrentPrediction(image, faceDetected);
               }
-
             } else {
               setState(() {
                 faceDetected = null;
@@ -114,19 +114,19 @@ class SignInState extends State<SignIn> {
     });
   }
 
-  /// handles the button pressed event
+  //handles the button pressed event
   Future<void> onShot() async {
-
     if (faceDetected == null) {
       showDialog(
           context: context,
-          child: AlertDialog(
-            content: Text('No face detected!'),
-          ));
+          builder: (_) => AlertDialog(
+                content: Text('No face detected!'),
+              ));
 
       return false;
     } else {
-      imagePath = join((await getTemporaryDirectory()).path, '${DateTime.now()}.png');
+      imagePath =
+          join((await getTemporaryDirectory()).path, '${DateTime.now()}.png');
 
       _saving = true;
 
@@ -172,13 +172,15 @@ class SignInState extends State<SignIn> {
                       fit: BoxFit.fitHeight,
                       child: Container(
                         width: width,
-                        height: width / _cameraService.cameraController.value.aspectRatio,
+                        height: width /
+                            _cameraService.cameraController.value.aspectRatio,
                         child: Stack(
                           fit: StackFit.expand,
                           children: <Widget>[
                             CameraPreview(_cameraService.cameraController),
                             CustomPaint(
-                              painter: FacePainter(face: faceDetected, imageSize: imageSize),
+                              painter: FacePainter(
+                                  face: faceDetected, imageSize: imageSize),
                             )
                           ],
                         ),

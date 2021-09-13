@@ -76,9 +76,9 @@ class SignUpState extends State<SignUp> {
     if (faceDetected == null) {
       showDialog(
           context: context,
-          child: AlertDialog(
-            content: Text('No face detected!'),
-          ));
+          builder: (_) => AlertDialog(
+                content: Text('No face detected!'),
+              ));
 
       return false;
     } else {

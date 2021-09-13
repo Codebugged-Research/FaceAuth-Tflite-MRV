@@ -5,6 +5,7 @@ import 'package:camera/camera.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:tflite_flutter/tflite_flutter.dart' as tflite;
 import 'package:image/image.dart' as imglib;
+import 'package:tflite_flutter/tflite_flutter.dart';
 
 class FaceNetService {
   // singleton boilerplate
@@ -30,15 +31,16 @@ class FaceNetService {
 
   Future loadModel() async {
     try {
-      final gpuDelegateV2 = tflite.GpuDelegateV2(
-          options: tflite.GpuDelegateOptionsV2(
-              false,
-              tflite.TfLiteGpuInferenceUsage.fastSingleAnswer,
-              tflite.TfLiteGpuInferencePriority.minLatency,
-              tflite.TfLiteGpuInferencePriority.auto,
-              tflite.TfLiteGpuInferencePriority.auto));
+      // final gpuDelegateV2 = GpuDelegateV2(
+      //     options: GpuDelegateOptionsV2(
+      //       TfLiteGpuInferenceUsage.fastSingleAnswer,
+      //       TfLiteGpuInferencePriority.minLatency,
+      //       TfLiteGpuInferencePriority.auto,
+      //       TfLiteGpuInferencePriority.auto,
+      //     ));
 
-      var interpreterOptions = tflite.InterpreterOptions()..addDelegate(gpuDelegateV2);
+      var interpreterOptions = tflite.InterpreterOptions();
+        // ..addDelegate(gpuDelegateV2);
       this._interpreter = await tflite.Interpreter.fromAsset('mobilefacenet.tflite', options: interpreterOptions);
       print('model loaded successfully');
     } catch (e) {
