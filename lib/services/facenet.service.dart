@@ -150,7 +150,7 @@ class FaceNetService {
     return convertedBytes.buffer.asFloat32List();
   }
 
-  /// searchs the result in the DDBB (this function should be performed by Backend)
+  /// searches the result in the DDBB (this function should be performed by Backend)
   /// [predictedData]: Array that represents the face by the MobileFaceNet model
   String _searchResult(List predictedData) {
     /// loads 'database' 🙄

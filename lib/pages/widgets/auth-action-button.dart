@@ -1,9 +1,10 @@
 import 'package:FaceNetAuthentication/constants/uiConstants.dart';
 import 'package:FaceNetAuthentication/pages/db/database.dart';
 import 'package:FaceNetAuthentication/pages/profile.dart';
+import 'package:FaceNetAuthentication/pages/xd.dart';
 import 'package:FaceNetAuthentication/services/facenet.service.dart';
 import 'package:flutter/material.dart';
-import '../home.dart';
+import 'package:FaceNetAuthentication/pages/home.dart';
 
 class User {
   String user;
@@ -46,13 +47,20 @@ class _AuthActionButtonState extends State<AuthActionButton> {
     String user = _userTextEditingController.text;
     String password = _passwordTextEditingController.text;
 
-    /// creates a new user in the 'database'
-    await _dataBaseService.saveData(user, password, predictedData);
+    var userAndPass = _predictUser();
+    if (userAndPass != null) {
+      this.predictedUser = User.fromDB(userAndPass);
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (BuildContext context) => AgainScreen()));
+    } else {
+      /// creates a new user in the 'database'
+      await _dataBaseService.saveData(user, password, predictedData);
 
-    /// resets the face stored in the face net sevice
-    this._faceNetService.setPredictedData(null);
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (BuildContext context) => MyHomePage()));
+      /// resets the face stored in the face net service
+      this._faceNetService.setPredictedData(null);
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (BuildContext context) => MyHomePage()));
+    }
   }
 
   Future _signIn(context) async {

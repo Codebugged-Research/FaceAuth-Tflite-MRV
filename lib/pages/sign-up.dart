@@ -32,7 +32,7 @@ class SignUpState extends State<SignUp> {
   Future _initializeControllerFuture;
   bool cameraInitializated = false;
 
-  // switchs when the user press the camera
+  //  Switch when the user press the camera
   bool _saving = false;
   bool _bottomSheetVisible = false;
 
