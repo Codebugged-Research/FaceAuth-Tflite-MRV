@@ -19,9 +19,11 @@ class User {
 class AuthActionButton extends StatefulWidget {
   AuthActionButton(this._initializeControllerFuture,
       {@required this.onPressed, @required this.isLogin});
+
   final Future _initializeControllerFuture;
   final Function onPressed;
   final bool isLogin;
+
   @override
   _AuthActionButtonState createState() => _AuthActionButtonState();
 }
@@ -57,11 +59,10 @@ class _AuthActionButtonState extends State<AuthActionButton> {
     String password = _passwordTextEditingController.text;
 
     if (this.predictedUser.password == password) {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-              builder: (BuildContext context) => Profile(
-                    username: this.predictedUser.user,
-                  )));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (BuildContext context) => Profile(
+                username: this.predictedUser.user,
+              )));
     } else {
       print(" WRONG PASSWORD!");
     }

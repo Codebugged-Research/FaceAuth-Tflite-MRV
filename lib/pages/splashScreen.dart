@@ -52,10 +52,13 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [Image.asset('assets/images/logo_mahindra.png'), Padding(
-            padding: const EdgeInsets.only(top: 4.0),
-            child: Text("Made with ❤ by Codebugged AI"),
-          )],
+          children: [
+            Image.asset('assets/images/logo_mahindra.png'),
+            Padding(
+              padding: const EdgeInsets.only(top: 4.0),
+              child: Text("Made with ❤ by Codebugged AI"),
+            )
+          ],
         ),
       ),
     );

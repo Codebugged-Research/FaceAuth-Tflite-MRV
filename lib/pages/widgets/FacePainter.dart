@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 
 class FacePainter extends CustomPainter {
   FacePainter({@required this.imageSize, @required this.face});
+
   final Size imageSize;
   double scaleX, scaleY;
   Face face;
+
   @override
   void paint(Canvas canvas, Size size) {
     if (face == null) return;
@@ -30,7 +32,12 @@ class FacePainter extends CustomPainter {
     scaleY = size.height / imageSize.height;
 
     canvas.drawRRect(
-        _scaleRect(rect: face.boundingBox, imageSize: imageSize, widgetSize: size, scaleX: scaleX, scaleY: scaleY),
+        _scaleRect(
+            rect: face.boundingBox,
+            imageSize: imageSize,
+            widgetSize: size,
+            scaleX: scaleX,
+            scaleY: scaleY),
         paint);
   }
 
@@ -41,7 +48,15 @@ class FacePainter extends CustomPainter {
 }
 
 RRect _scaleRect(
-    {@required Rect rect, @required Size imageSize, @required Size widgetSize, double scaleX, double scaleY}) {
-  return RRect.fromLTRBR((widgetSize.width - rect.left.toDouble() * scaleX), rect.top.toDouble() * scaleY,
-      widgetSize.width - rect.right.toDouble() * scaleX, rect.bottom.toDouble() * scaleY, Radius.circular(10));
+    {@required Rect rect,
+    @required Size imageSize,
+    @required Size widgetSize,
+    double scaleX,
+    double scaleY}) {
+  return RRect.fromLTRBR(
+      (widgetSize.width - rect.left.toDouble() * scaleX),
+      rect.top.toDouble() * scaleY,
+      widgetSize.width - rect.right.toDouble() * scaleX,
+      rect.bottom.toDouble() * scaleY,
+      Radius.circular(10));
 }

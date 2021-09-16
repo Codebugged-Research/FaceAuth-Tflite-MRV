@@ -35,9 +35,9 @@ class SignInState extends State<SignIn> {
 
   bool cameraInitializated = false;
   bool _detectingFaces = false;
-  bool pictureTaked = false;
+  bool pictureTaken = false;
 
-  // switchs when the user press the camera
+  // switch when the user press the camera
   bool _saving = false;
   bool _bottomSheetVisible = false;
 
@@ -69,7 +69,6 @@ class SignInState extends State<SignIn> {
     setState(() {
       cameraInitializated = true;
     });
-
     _frameFaces();
   }
 
@@ -89,7 +88,7 @@ class SignInState extends State<SignIn> {
 
           if (faces != null) {
             if (faces.length > 0) {
-              // preprocessing the image
+              // Preprocessing the image
               setState(() {
                 faceDetected = faces[0];
               });
@@ -137,7 +136,7 @@ class SignInState extends State<SignIn> {
 
       setState(() {
         _bottomSheetVisible = true;
-        pictureTaked = true;
+        pictureTaken = true;
       });
 
       return true;
@@ -153,7 +152,7 @@ class SignInState extends State<SignIn> {
         future: _initializeControllerFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            if (pictureTaked) {
+            if (pictureTaken) {
               return Container(
                 width: width,
                 child: Transform(

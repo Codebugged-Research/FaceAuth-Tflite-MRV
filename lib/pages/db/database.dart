@@ -4,11 +4,13 @@ import 'package:path_provider/path_provider.dart';
 
 class DataBaseService {
   // singleton boilerplate
-  static final DataBaseService _cameraServiceService = DataBaseService._internal();
+  static final DataBaseService _cameraServiceService =
+      DataBaseService._internal();
 
   factory DataBaseService() {
     return _cameraServiceService;
   }
+
   // singleton boilerplate
   DataBaseService._internal();
 
@@ -17,11 +19,11 @@ class DataBaseService {
 
   /// Data learned on memory
   Map<String, dynamic> _db = Map<String, dynamic>();
+
   Map<String, dynamic> get db => this._db;
 
   /// loads a simple json file.
   Future loadDB() async {
-
     var tempDir = await getApplicationDocumentsDirectory();
     String _embPath = tempDir.path + '/emb.json';
 
@@ -39,7 +41,6 @@ class DataBaseService {
     _db[userAndPass] = modelData;
     jsonFile.writeAsStringSync(json.encode(_db));
   }
-
 
   /// deletes the created users
   cleanDB() {
