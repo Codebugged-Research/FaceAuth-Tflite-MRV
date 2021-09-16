@@ -40,6 +40,7 @@ class _AuthActionButtonState extends State<AuthActionButton> {
       TextEditingController(text: '');
 
   User predictedUser;
+  bool isThere = false;
 
   Future _signUp(context) async {
     /// gets predicted data from facenet service (user face detected)
@@ -50,6 +51,7 @@ class _AuthActionButtonState extends State<AuthActionButton> {
     var userAndPass = _predictUser();
     if (userAndPass != null) {
       this.predictedUser = User.fromDB(userAndPass);
+      isThere= true;
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (BuildContext context) => AgainScreen()));
     } else {
@@ -158,7 +160,7 @@ class _AuthActionButtonState extends State<AuthActionButton> {
                       labelText: "Password"),
                   obscureText: true,
                 ),
-          widget.isLogin && predictedUser != null
+          widget.isLogin && predictedUser != null && !isThere
               ? Padding(
                   padding: const EdgeInsets.only(top: 32),
                   child: SizedBox(
@@ -173,7 +175,7 @@ class _AuthActionButtonState extends State<AuthActionButton> {
                     ),
                   ),
                 )
-              : !widget.isLogin
+              : !widget.isLogin && !isThere
                   ? Padding(
                       padding: const EdgeInsets.only(top: 32),
                       child: SizedBox(
