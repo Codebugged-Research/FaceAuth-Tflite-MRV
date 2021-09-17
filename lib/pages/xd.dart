@@ -8,6 +8,8 @@ class AgainScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Action Screen'),
+        brightness: Brightness.dark,
+        backgroundColor: Color(0xff25354E),
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -22,8 +24,8 @@ class AgainScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xff25354E),
         onPressed: () {
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (BuildContext context) => MyHomePage()));
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (BuildContext context) => MyHomePage()));
         },
         child: Icon(Icons.arrow_forward_ios_sharp),
       ),

@@ -51,9 +51,9 @@ class _AuthActionButtonState extends State<AuthActionButton> {
     var userAndPass = _predictUser();
     if (userAndPass != null) {
       this.predictedUser = User.fromDB(userAndPass);
-      isThere= true;
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (BuildContext context) => AgainScreen()));
+      isThere = true;
+      // Navigator.of(context).pushReplacement(
+      //     MaterialPageRoute(builder: (BuildContext context) => AgainScreen()));
     } else {
       /// creates a new user in the 'database'
       await _dataBaseService.saveData(user, password, predictedData);
@@ -160,7 +160,7 @@ class _AuthActionButtonState extends State<AuthActionButton> {
                       labelText: "Password"),
                   obscureText: true,
                 ),
-          widget.isLogin && predictedUser != null && !isThere
+          widget.isLogin && predictedUser != null && isThere
               ? Padding(
                   padding: const EdgeInsets.only(top: 32),
                   child: SizedBox(
@@ -175,7 +175,7 @@ class _AuthActionButtonState extends State<AuthActionButton> {
                     ),
                   ),
                 )
-              : !widget.isLogin && !isThere
+              : !widget.isLogin && isThere
                   ? Padding(
                       padding: const EdgeInsets.only(top: 32),
                       child: SizedBox(
@@ -191,6 +191,13 @@ class _AuthActionButtonState extends State<AuthActionButton> {
                       ),
                     )
                   : Container(),
+          Visibility(
+              visible: widget.isLogin && predictedUser != null && !isThere,
+              child: Center(
+                  child: Text(
+                'You are already Registered! Sign In',
+                style: TextStyle(color: Colors.black, fontSize: 24),
+              )))
         ],
       ),
     );

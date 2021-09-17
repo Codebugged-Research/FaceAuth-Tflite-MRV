@@ -41,6 +41,7 @@ class _PeopleScreenState extends State<PeopleScreen> {
       appBar: AppBar(
         title: Text('Registered People'),
         brightness: Brightness.dark,
+        backgroundColor: Color(0xff25354E),
       ),
       body: isLoading
           ? CircularProgressIndicator(
