@@ -5,6 +5,7 @@ import 'package:FaceNetAuthentication/pages/xd.dart';
 import 'package:FaceNetAuthentication/services/facenet.service.dart';
 import 'package:flutter/material.dart';
 import 'package:FaceNetAuthentication/pages/home.dart';
+import 'package:geolocator/geolocator.dart';
 
 class User {
   String user;
@@ -17,12 +18,16 @@ class User {
   }
 }
 
+// ignore: must_be_immutable
 class AuthActionButton extends StatefulWidget {
   AuthActionButton(this._initializeControllerFuture,
-      {@required this.onPressed, @required this.isLogin});
+      {@required this.onPressed,
+      @required this.isLogin,
+      @required this.position});
 
   final Future _initializeControllerFuture;
   final Function onPressed;
+  final Position position;
   bool isLogin;
 
   @override
@@ -59,7 +64,12 @@ class _AuthActionButtonState extends State<AuthActionButton> {
       //     MaterialPageRoute(builder: (BuildContext context) => AgainScreen()));
     } else {
       /// creates a new user in the 'database'
-      await _dataBaseService.saveData(user, password, predictedData);
+      await _dataBaseService.saveData(
+          user,
+          password,
+          predictedData,
+          widget.position.latitude.toString(),
+          widget.position.longitude.toString());
 
       /// resets the face stored in the face net service
       this._faceNetService.setPredictedData(null);
@@ -114,7 +124,7 @@ class _AuthActionButtonState extends State<AuthActionButton> {
                 this.predictedUser = User.fromDB(userAndPass);
                 Scaffold.of(context).showBottomSheet(
                   (context) => WillPopScope(
-                    onWillPop: ()async{
+                    onWillPop: () async {
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
                       return true;
@@ -126,16 +136,17 @@ class _AuthActionButtonState extends State<AuthActionButton> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'You are already Registered! Sign In',
-                            style: TextStyle(color: Colors.black, fontSize: 24),
+                            'You are already Registered as ${predictedUser.user}! Sign In',
+                            style: TextStyle(color: Colors.black, fontSize: 22),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 32),
                             child: SizedBox(
                               width: UIConstants.fitToWidth(250, context),
                               child: RaisedButton(
-                                padding: const EdgeInsets.symmetric(vertical: 16),
-                                child: Text('Login',
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
+                                child: Text('Sign In',
                                     style: TextStyle(color: Colors.white)),
                                 onPressed: () {
                                   Navigator.of(context).pushAndRemoveUntil(

@@ -9,6 +9,7 @@ import 'package:FaceNetAuthentication/services/ml_vision_service.dart';
 import 'package:camera/camera.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
 
@@ -25,6 +26,7 @@ class SignUpState extends State<SignUp> {
   String imagePath;
   Face faceDetected;
   Size imageSize;
+  Position position;
 
   bool _detectingFaces = false;
   bool pictureTaked = false;
@@ -47,6 +49,16 @@ class SignUpState extends State<SignUp> {
 
     /// starts the camera & start framing faces
     _start();
+    _getLocation();
+  }
+
+  _getLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+    permission = await Geolocator.checkPermission();
+    position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    print(position.toString());
   }
 
   @override
@@ -199,6 +211,7 @@ class SignUpState extends State<SignUp> {
                 _initializeControllerFuture,
                 onPressed: onShot,
                 isLogin: false,
+                position: position,
               )
             : Container());
   }

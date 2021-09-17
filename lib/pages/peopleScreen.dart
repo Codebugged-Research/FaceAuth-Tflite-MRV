@@ -11,6 +11,8 @@ class _PeopleScreenState extends State<PeopleScreen> {
   DataBaseService dataBaseService = DataBaseService();
 
   List<String> names = [];
+  List<String> latitudes = [];
+  List<String> longitudes = [];
 
   @override
   void initState() {
@@ -23,10 +25,11 @@ class _PeopleScreenState extends State<PeopleScreen> {
       isLoading = true;
     });
     dataBaseService.loadDB();
-    // print(dataBaseService.db);
-    var people = dataBaseService.db.forEach((key, value) {
+    dataBaseService.db.forEach((key, value) {
       var person = key.toString().split(':');
       names.add(person[0]);
+      latitudes.add(person[2]);
+      longitudes.add(person[3]);
     });
 
     print(names);
@@ -65,23 +68,34 @@ class _PeopleScreenState extends State<PeopleScreen> {
                       itemBuilder: (_, int index) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
+                          child: Row(children: [
+                            Text(
+                              '${index + 1}.',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 18),
+                            ),
+                            SizedBox(
+                              width: 4.0,
+                            ),
+                            Text(
+                              names[index],
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 18),
+                            ),
+                            Row(children: [
                               Text(
-                                '${index + 1}.',
+                                'Latitude: ${latitudes[index]}',
                                 style: TextStyle(
-                                    color: Colors.black, fontSize: 18),
+                                    color: Colors.black, fontSize: 14),
                               ),
-                              SizedBox(
-                                width: 4.0,
-                              ),
+                              SizedBox(width: 2),
                               Text(
-                                names[index],
+                                'Longitude: ${longitudes[index]}',
                                 style: TextStyle(
-                                    color: Colors.black, fontSize: 18),
-                              ),
-                            ],
-                          ),
+                                    color: Colors.black, fontSize: 14),
+                              )
+                            ])
+                          ]),
                         );
                       }),
             ),
