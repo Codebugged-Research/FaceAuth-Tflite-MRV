@@ -23,7 +23,7 @@ class AuthActionButton extends StatefulWidget {
 
   final Future _initializeControllerFuture;
   final Function onPressed;
-  final bool isLogin;
+  bool isLogin;
 
   @override
   _AuthActionButtonState createState() => _AuthActionButtonState();
@@ -51,7 +51,10 @@ class _AuthActionButtonState extends State<AuthActionButton> {
     var userAndPass = _predictUser();
     if (userAndPass != null) {
       this.predictedUser = User.fromDB(userAndPass);
-      isThere = true;
+      setState(() {
+        isThere = true;
+      });
+      print("______________________________" + isThere.toString());
       // Navigator.of(context).pushReplacement(
       //     MaterialPageRoute(builder: (BuildContext context) => AgainScreen()));
     } else {
@@ -103,9 +106,56 @@ class _AuthActionButtonState extends State<AuthActionButton> {
               if (userAndPass != null) {
                 this.predictedUser = User.fromDB(userAndPass);
               }
+              Scaffold.of(context)
+                  .showBottomSheet((context) => signSheet(context));
+            } else {
+              var userAndPass = _predictUser();
+              if (userAndPass != null) {
+                this.predictedUser = User.fromDB(userAndPass);
+                Scaffold.of(context).showBottomSheet(
+                  (context) => WillPopScope(
+                    onWillPop: ()async{
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                      return true;
+                    },
+                    child: Container(
+                      height: 240,
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'You are already Registered! Sign In',
+                            style: TextStyle(color: Colors.black, fontSize: 24),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 32),
+                            child: SizedBox(
+                              width: UIConstants.fitToWidth(250, context),
+                              child: RaisedButton(
+                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                child: Text('Login',
+                                    style: TextStyle(color: Colors.white)),
+                                onPressed: () {
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(
+                                          builder: (_) => MyHomePage()),
+                                      (Route<dynamic> route) => false);
+                                },
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              } else {
+                Scaffold.of(context)
+                    .showBottomSheet((context) => signSheet(context));
+              }
             }
-            Scaffold.of(context)
-                .showBottomSheet((context) => signSheet(context));
           }
         } catch (e) {
           // If an error occurs, log the error to the console.
@@ -160,7 +210,7 @@ class _AuthActionButtonState extends State<AuthActionButton> {
                       labelText: "Password"),
                   obscureText: true,
                 ),
-          widget.isLogin && predictedUser != null && isThere
+          widget.isLogin && predictedUser != null
               ? Padding(
                   padding: const EdgeInsets.only(top: 32),
                   child: SizedBox(
@@ -175,7 +225,7 @@ class _AuthActionButtonState extends State<AuthActionButton> {
                     ),
                   ),
                 )
-              : !widget.isLogin && isThere
+              : !widget.isLogin
                   ? Padding(
                       padding: const EdgeInsets.only(top: 32),
                       child: SizedBox(
@@ -191,13 +241,6 @@ class _AuthActionButtonState extends State<AuthActionButton> {
                       ),
                     )
                   : Container(),
-          Visibility(
-              visible: widget.isLogin && predictedUser != null && !isThere,
-              child: Center(
-                  child: Text(
-                'You are already Registered! Sign In',
-                style: TextStyle(color: Colors.black, fontSize: 24),
-              )))
         ],
       ),
     );

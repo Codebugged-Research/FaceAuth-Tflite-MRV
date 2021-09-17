@@ -49,6 +49,7 @@ class _ProfileState extends State<Profile> {
       appBar: AppBar(
         title: Text('Profile'),
         centerTitle: true,
+        backgroundColor: Color(0xff25354E),
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -82,19 +83,19 @@ class _ProfileState extends State<Profile> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0xff25354E),
-        onPressed: () async {
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.clear();
-          _dataBaseService.cleanDB();
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (BuildContext context) {
-            return MyHomePage();
-          }), (Route<dynamic> route) => false);
-        },
-        child: Icon(Icons.delete),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: Color(0xff25354E),
+      //   onPressed: () async {
+      //     SharedPreferences prefs = await SharedPreferences.getInstance();
+      //     prefs.clear();
+      //     _dataBaseService.cleanDB();
+      //     Navigator.of(context).pushAndRemoveUntil(
+      //         MaterialPageRoute(builder: (BuildContext context) {
+      //       return MyHomePage();
+      //     }), (Route<dynamic> route) => false);
+      //   },
+      //   child: Icon(Icons.delete),
+      // ),
     );
   }
 }
