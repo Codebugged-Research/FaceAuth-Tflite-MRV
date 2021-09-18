@@ -66,23 +66,18 @@ class _PeopleScreenState extends State<PeopleScreen> {
                       itemCount: dataBaseService.db.length,
                       shrinkWrap: true,
                       itemBuilder: (_, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(children: [
-                            Text(
-                              '${index + 1}.',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 18),
-                            ),
-                            SizedBox(
-                              width: 4.0,
-                            ),
-                            Text(
-                              names[index],
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 18),
-                            ),
-                            Row(children: [
+                        return ListTile(
+                          leading: Text(
+                            '${index + 1}.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.black, fontSize: 18),
+                          ),
+                          title: Text(
+                            names[index],
+                            style: TextStyle(color: Colors.black, fontSize: 18),
+                          ),
+                          subtitle: Row(
+                            children: [
                               Text(
                                 'Latitude: ${latitudes[index]}',
                                 style: TextStyle(
@@ -94,10 +89,11 @@ class _PeopleScreenState extends State<PeopleScreen> {
                                 style: TextStyle(
                                     color: Colors.black, fontSize: 14),
                               )
-                            ])
-                          ]),
+                            ],
+                          ),
                         );
-                      }),
+                      },
+                    ),
             ),
     );
   }
