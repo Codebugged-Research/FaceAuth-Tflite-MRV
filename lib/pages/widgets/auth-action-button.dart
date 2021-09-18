@@ -60,8 +60,6 @@ class _AuthActionButtonState extends State<AuthActionButton> {
         isThere = true;
       });
       print("______________________________" + isThere.toString());
-      // Navigator.of(context).pushReplacement(
-      //     MaterialPageRoute(builder: (BuildContext context) => AgainScreen()));
     } else {
       /// creates a new user in the 'database'
       await _dataBaseService.saveData(

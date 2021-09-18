@@ -10,15 +10,18 @@ class CameraService {
   factory CameraService() {
     return _cameraServiceService;
   }
+
   // singleton boilerplate
   CameraService._internal();
 
   CameraController _cameraController;
+
   CameraController get cameraController => this._cameraController;
 
   CameraDescription _cameraDescription;
 
   ImageRotation _cameraRotation;
+
   ImageRotation get cameraRotation => this._cameraRotation;
 
   Future startService(CameraDescription cameraDescription) async {
@@ -51,12 +54,12 @@ class CameraService {
     }
   }
 
-  /// takes the picture and saves it in the given path 📸
+  /// takes the picture and saves it in the given path
   Future<void> takePicture(String imagePath) async {
     await _cameraController.takePicture(imagePath);
   }
 
-  /// returns the image size 📏
+  /// returns the image size
   Size getImageSize() {
     return Size(
       _cameraController.value.previewSize.height,

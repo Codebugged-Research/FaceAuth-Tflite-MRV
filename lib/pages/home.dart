@@ -7,7 +7,6 @@ import 'package:FaceNetAuthentication/services/facenet.service.dart';
 import 'package:FaceNetAuthentication/services/ml_vision_service.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key}) : super(key: key);
@@ -29,7 +28,6 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     _startUp();
-    _getLocation();
   }
 
   /// 1 Obtain a list of the available cameras on the device.
@@ -58,15 +56,6 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       loading = value;
     });
-  }
-
-  _getLocation() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-    permission = await Geolocator.checkPermission();
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    print(position.toString());
   }
 
   @override
@@ -124,26 +113,29 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: MediaQuery.of(context).size.height * 0.11,
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           SizedBox(
-                            width: UIConstants.fitToWidth(100, context),
-                            child: RaisedButton(
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              child: Text('Sign In',
-                                  style: TextStyle(color: Colors.white)),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) => SignIn(
-                                      cameraDescription: cameraDescription,
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
+                              width: UIConstants.fitToWidth(100, context),
+                              child: RaisedButton(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 16),
+                                  child: Text('Sign In',
+                                      style: TextStyle(color: Colors.white)),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              SignIn(
+                                            cameraDescription:
+                                                cameraDescription,
+                                          ),
+                                        ));
+                                  })),
+                          SizedBox(
+                            width: UIConstants.fitToWidth(15, context),
                           ),
                           SizedBox(
                             width: UIConstants.fitToWidth(100, context),

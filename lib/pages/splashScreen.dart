@@ -25,22 +25,11 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void navigate() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    print(prefs.getBool('loggedIn'));
-    print(prefs.getString('name'));
-    if (prefs.getBool('loggedIn') == true) {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) {
-        return Profile(
-          username: '',
-        );
-      }));
-    } else {
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) {
         return MyHomePage();
       }));
-    }
+
   }
 
   @override
