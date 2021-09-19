@@ -59,7 +59,6 @@ class _AuthActionButtonState extends State<AuthActionButton> {
       setState(() {
         isThere = true;
       });
-      print("______________________________" + isThere.toString());
     } else {
       /// creates a new user in the 'database'
       await _dataBaseService.saveData(
@@ -71,8 +70,10 @@ class _AuthActionButtonState extends State<AuthActionButton> {
 
       /// resets the face stored in the face net service
       this._faceNetService.setPredictedData(null);
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (BuildContext context) => MyHomePage()));
+      Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (BuildContext context) {
+                    return MyHomePage();
+                  }), (Route<dynamic> route) => false);
     }
   }
 
@@ -80,10 +81,12 @@ class _AuthActionButtonState extends State<AuthActionButton> {
     String password = _passwordTextEditingController.text;
 
     if (this.predictedUser.password == password) {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (BuildContext context) => Profile(
+      Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (BuildContext context) {
+                    return Profile(
                 username: this.predictedUser.user,
-              )));
+              );
+                  }), (Route<dynamic> route) => false);
     } else {
       print(" WRONG PASSWORD!");
     }
