@@ -1,9 +1,6 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-
 import 'package:FaceNetAuthentication/pages/home.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'profile.dart';
 
@@ -25,11 +22,9 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void navigate() async {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) {
-        return MyHomePage();
-      }));
-
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
+      return MyHomePage();
+    }));
   }
 
   @override
@@ -45,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Image.asset('assets/images/logo_mahindra.png'),
             Padding(
               padding: const EdgeInsets.only(top: 4.0),
-              child: Text("Made with ❤ by Codebugged AI"),
+              child: Text("Made with ❤ "),
             )
           ],
         ),

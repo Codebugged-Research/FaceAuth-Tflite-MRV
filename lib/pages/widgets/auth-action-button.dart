@@ -6,6 +6,7 @@ import 'package:FaceNetAuthentication/services/facenet.service.dart';
 import 'package:flutter/material.dart';
 import 'package:FaceNetAuthentication/pages/home.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class User {
   String user;
@@ -71,9 +72,9 @@ class _AuthActionButtonState extends State<AuthActionButton> {
       /// resets the face stored in the face net service
       this._faceNetService.setPredictedData(null);
       Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (BuildContext context) {
-                    return MyHomePage();
-                  }), (Route<dynamic> route) => false);
+          MaterialPageRoute(builder: (BuildContext context) {
+        return MyHomePage();
+      }), (Route<dynamic> route) => false);
     }
   }
 
@@ -81,15 +82,24 @@ class _AuthActionButtonState extends State<AuthActionButton> {
     String password = _passwordTextEditingController.text;
 
     if (this.predictedUser.password == password) {
+      saveTime();
       Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (BuildContext context) {
-                    return Profile(
-                username: this.predictedUser.user,
-              );
-                  }), (Route<dynamic> route) => false);
+          MaterialPageRoute(builder: (BuildContext context) {
+        return Profile(
+          username: this.predictedUser.user,
+        );
+      }), (Route<dynamic> route) => false);
     } else {
       print(" WRONG PASSWORD!");
     }
+  }
+
+  saveTime() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString(this.predictedUser.user) == null ||
+        prefs.getString(this.predictedUser.user) == ' ')
+      prefs.remove(this.predictedUser.user);
+    prefs.setString(this.predictedUser.user, DateTime.now().toString());
   }
 
   String _predictUser() {

@@ -1,19 +1,18 @@
-import 'package:FaceNetAuthentication/pages/db/database.dart';
-import 'package:FaceNetAuthentication/pages/logScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class PeopleScreen extends StatefulWidget {
+import 'db/database.dart';
+
+class LogScreen extends StatefulWidget {
   @override
-  _PeopleScreenState createState() => _PeopleScreenState();
+  _LogScreenState createState() => _LogScreenState();
 }
 
-class _PeopleScreenState extends State<PeopleScreen> {
+class _LogScreenState extends State<LogScreen> {
   bool isLoading = false;
   DataBaseService dataBaseService = DataBaseService();
 
   List<String> names = [];
-  List<String> latitudes = [];
-  List<String> longitudes = [];
 
   @override
   void initState() {
@@ -29,8 +28,6 @@ class _PeopleScreenState extends State<PeopleScreen> {
     dataBaseService.db.forEach((key, value) {
       var person = key.toString().split(':');
       names.add(person[0]);
-      latitudes.add(person[2]);
-      longitudes.add(person[3]);
     });
 
     print(names);
@@ -39,11 +36,16 @@ class _PeopleScreenState extends State<PeopleScreen> {
     });
   }
 
+  Future<String> getTime(String name) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(name);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Registered People'),
+        title: Text('Log Screen'),
         brightness: Brightness.dark,
         backgroundColor: Color(0xff25354E),
       ),
@@ -77,36 +79,11 @@ class _PeopleScreenState extends State<PeopleScreen> {
                             names[index],
                             style: TextStyle(color: Colors.black, fontSize: 18),
                           ),
-                          subtitle: Row(
-                            children: [
-                              Text(
-                                'Latitude: ${latitudes[index]}',
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 14),
-                              ),
-                              SizedBox(width: 2),
-                              Text(
-                                'Longitude: ${longitudes[index]}',
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 14),
-                              )
-                            ],
-                          ),
+                          subtitle: Text('Time: ${getTime(names[index])}'),
                         );
                       },
                     ),
             ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0xff25354E),
-        onPressed: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (_) => LogScreen()));
-        },
-        child: Icon(
-          Icons.forward,
-          color: Colors.white,
-        ),
-      ),
     );
   }
 }
