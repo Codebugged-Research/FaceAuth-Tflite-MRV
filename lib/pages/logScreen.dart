@@ -8,11 +8,18 @@ class LogScreen extends StatefulWidget {
   _LogScreenState createState() => _LogScreenState();
 }
 
+class Log {
+  final String name;
+  final DateTime time;
+
+  Log({this.name, this.time});
+}
+
 class _LogScreenState extends State<LogScreen> {
   bool isLoading = false;
   DataBaseService dataBaseService = DataBaseService();
 
-  List<String> names = [];
+  List<Log> names = [];
 
   @override
   void initState() {
@@ -24,22 +31,19 @@ class _LogScreenState extends State<LogScreen> {
     setState(() {
       isLoading = true;
     });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     dataBaseService.loadDB();
     dataBaseService.db.forEach((key, value) {
       var person = key.toString().split(':');
-      names.add(person[0]);
+      var time = prefs.getString(person[0]);
+      names.add(Log(name: person[0], time: DateTime.parse(time)));
     });
-
     print(names);
     setState(() {
       isLoading = false;
     });
   }
 
-  Future<String> getTime(String name) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(name);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,14 +80,19 @@ class _LogScreenState extends State<LogScreen> {
                             style: TextStyle(color: Colors.black, fontSize: 18),
                           ),
                           title: Text(
-                            names[index],
+                            names[index].name,
                             style: TextStyle(color: Colors.black, fontSize: 18),
                           ),
-                          subtitle: Text('Time: ${getTime(names[index])}'),
+                          subtitle: Text('Time: ${dateTimeFormatter(names[index].time.toString())}'),
                         );
                       },
                     ),
             ),
     );
+  }
+
+  dateTimeFormatter(String dat) {
+    DateTime date = DateTime.parse(dat);
+    return '${date.day.toString().padLeft(2, "0")}/${date.month.toString().padLeft(2, "0")}/${DateTime.now().year}  ${date.hour.toString().padLeft(2, "0")}:${date.minute.toString().padLeft(2, "0")}';
   }
 }
