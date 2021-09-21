@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Mahindra Face Auth',
+      title: 'Indus One App',
       theme: ThemeData(
         primaryColor: Color(0xff25354E),
         scaffoldBackgroundColor: Colors.white,
