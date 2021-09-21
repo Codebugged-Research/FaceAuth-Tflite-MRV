@@ -7,6 +7,7 @@ import 'package:FaceNetAuthentication/services/facenet.service.dart';
 import 'package:FaceNetAuthentication/services/ml_vision_service.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key}) : super(key: key);
@@ -28,6 +29,14 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     _startUp();
+    _getLocation();
+  }
+
+  _getLocation() async {
+    LocationPermission permission;
+    permission = await Geolocator.checkPermission();
+    var position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
   }
 
   /// 1 Obtain a list of the available cameras on the device.
@@ -64,12 +73,12 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: Image.asset('assets/images/logo_mahindra.png'),
-          )
-        ],
+        // actions: [
+        //   Padding(
+        //     padding: const EdgeInsets.only(left: 8.0),
+        //     child: Image.asset('assets/images/logo_mahindra.png'),
+        //   )
+        // ],
       ),
       body: !loading
           ? Container(
@@ -97,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       Padding(
                         padding: const EdgeInsets.only(top: 4.0),
                         child: Text(
-                          'Ikshana',
+                          '',
                           style: TextStyle(color: Color(0xff878787)),
                         ),
                       ),
@@ -105,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: MediaQuery.of(context).size.height * 0.01,
                       ),
                       Image.asset(
-                        'assets/images/login.png',
+                        'assets/images/logo_mahindra.jpeg',
                         height: UIConstants.fitToHeight(360, context),
                         width: UIConstants.fitToWidth(360, context),
                       ),

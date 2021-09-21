@@ -2,8 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:FaceNetAuthentication/pages/home.dart';
 
-import 'profile.dart';
-
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -37,10 +35,10 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset('assets/images/logo_mahindra.png'),
+            Image.asset('assets/images/logo_mahindra.jpeg'),
             Padding(
               padding: const EdgeInsets.only(top: 4.0),
-              child: Text("Made with ❤ "),
+              child: Text("Made with ❤ with IndusOne"),
             )
           ],
         ),
